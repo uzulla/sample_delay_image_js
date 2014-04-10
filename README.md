@@ -8,6 +8,10 @@ sample_delay_image_js
 
 Chrome、Firefoxで確認していますが、IEでも問題はないはずです。
 
+
+[zipダウンロード](https://github.com/uzulla/sample_delay_image_js/archive/master.zip)
+
+
 # LICENSE
 
 MIT、WTFPL、パブリックドメイン、CC0、Unlicense、いずれかお好きなもので。
