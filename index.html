@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>sample</title>
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+
+<div id="group1"><img class="lazy_load" src="img/spacer.gif" data-src="img/01.png" width="300" height="300">img1</div>
+
+<div id="group2">
+    <img class="lazy_load" src="img/spacer.gif" data-src="img/02.png" width="300" height="300">img2
+    <button onclick="showIncludeImage($('#group2'));">画像を読み込み開始する</button>
+</div>
+
+<div id="group3">
+    <img class="lazy_load" src="img/loading.gif" data-src="img/03.png" width="300" height="300">img3
+    5秒後にロードする(クルクルにしているのは、たんなるオシャレである）
+    <script>
+        $(function(){
+            setTimeout(function(){
+                showIncludeImage($('#group3'));
+            }, 5*1000);
+        });
+    </script>
+</div>
+
+<div id="group4">
+    <img class="lazy_load" src="img/spacer.gif" data-src="img/04.png" width="300" height="300">img4
+    スクロールで要素が表示されたら表示
+</div>
+
+<script>
+
+$(function(){
+    // onloadで group 1を読み込み開始する
+    showIncludeImage($("#group1"));
+
+    // 縦スクロールして表示されたら読み込み開始する
+    var scrollTarget = $("#group4");
+    $(window).scroll(function(){
+        if($(window).scrollTop()>scrollTarget.offset().top-$(window).height()){ // ここの右辺値を調整することで、多少表示される前から読み込みもできる
+            showIncludeImage($("#group4"));
+        }
+    });
+
+    // showImageは「呼ばれた瞬間」に読み込みを開始するので、
+    // 必要であれば、以下のような形で先読みをさせる(先読みサンプル)
+    // 先読みをしなくてもよいし（ユーザー体験的にはしてあるべきだが）
+    // ある程度すすんでから先読みを行うのもよい。
+    $.each(
+        [
+            'img/01.png',
+            'img/02.png',
+            'img/03.png',
+            'img/04.png'
+        ],
+        function(){
+            var img = $("<img>").attr('src', this);
+        }
+    );
+
+});
+
+// 引数の要素の子要素の、lazy_loadクラスを付与されたimg要素すべてをshowImageする
+function showIncludeImage(elm){
+    $('img.lazy_load', elm).each(
+        function(){
+            showImage(this);
+        }
+    );
+}
+
+// data-srcアトリビュートの値をsrcアトリビュートに代入する
+// 二度処理しないために、lazy_loadクラスを削除している
+// 直接 showImage($('#target_image')) などとしてもよい
+function showImage(elm){
+    var img = $(elm);
+    img.removeClass('lazy_load');
+    img.attr('src', img.attr('data-src'));
+}
+
+</script>
+
+</body>
+</html>
