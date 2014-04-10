@@ -34,6 +34,7 @@
 <script>
 
 $(function(){
+
     // onloadで group 1を読み込み開始する
     showIncludeImage($("#group1"));
 
@@ -48,7 +49,7 @@ $(function(){
     // showImageは「呼ばれた瞬間」に読み込みを開始するので、
     // 必要であれば、以下のような形で先読みをさせる(先読みサンプル)
     // 先読みをしなくてもよいし（ユーザー体験的にはしてあるべきだが）
-    // ある程度すすんでから先読みを行うのもよい。
+    // ある程度すすんでから、部分部分で先読みを行うのもよい。
     $.each(
         [
             'img/01.png',
@@ -60,6 +61,13 @@ $(function(){
             var img = $("<img>").attr('src', this);
         }
     );
+
+    // 先読みを一個一個指定するのが面倒ならば、以下のような手法も可能
+//    $('img.lazy_load').each(function(){
+//        var img_url = $(this).attr('data-src');
+//        var img = $("<img>").attr('src', img_url);
+//    });
+
 
 });
 
